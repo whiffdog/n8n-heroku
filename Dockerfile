@@ -1,10 +1,14 @@
-FROM n8nio/n8n:latest
+FROM n8nio/n8n
 
-USER root
+ENV DB_TYPE=sqlite
+ENV DB_SQLITE_DATABASE=/data/database.sqlite
 
-WORKDIR /home/node/packages/cli
-ENTRYPOINT []
+ENV GENERIC_TIMEZONE=America/Phoenix
 
-COPY ./entrypoint.sh /
-RUN chmod +x /entrypoint.sh
-CMD ["/entrypoint.sh"]
+ENV N8N_BASIC_AUTH_ACTIVE=true
+ENV N8N_BASIC_AUTH_USER=admin
+ENV N8N_BASIC_AUTH_PASSWORD=yourStrongPasswordHere
+
+RUN mkdir -p /data && chown node:node /data
+
+USER node
