@@ -1,18 +1,25 @@
-FROM n8nio/n8n
+# Use official n8n image
+FROM n8nio/n8n:latest
 
-ENV DB_TYPE=sqlite
-ENV DB_SQLITE_DATABASE=/home/node/.n8n/database.sqlite
+# Enable basic authentication (optional but recommended)
 ENV N8N_BASIC_AUTH_ACTIVE=true
 ENV N8N_BASIC_AUTH_USER=admin
-ENV N8N_BASIC_AUTH_PASSWORD=YourStrongPasswordHere
-ENV N8N_ENCRYPTION_KEY=YourEncryptionKeyHere
-ENV N8N_PROTOCOL=https
-ENV N8N_HOST=automation.whiffdog.com
-ENV N8N_PORT=5678
-ENV N8N_EDITOR_BASE_URL=https://automation.whiffdog.com
-ENV WEBHOOK_URL=https://automation.whiffdog.com
-ENV GENERIC_TIMEZONE=America/Phoenix
+ENV N8N_BASIC_AUTH_PASSWORD=yourStrongPasswordHere
 
+# Optional: Set up SQLite as the DB (no extra service needed)
+ENV DB_TYPE=sqlite
+ENV DB_SQLITE_DATABASE=/home/node/.n8n/database.sqlite
+
+# Optional: Set custom domain config
+ENV N8N_HOST=automation.whiffdog.com
+ENV WEBHOOK_URL=https://automation.whiffdog.com
+ENV N8N_PROTOCOL=https
+
+# Optional but recommended: encryption key
+ENV N8N_ENCRYPTION_KEY=yourVerySecureRandomKey
+
+# Set correct user
 USER node
 
+# Start n8n process
 CMD ["n8n"]
